@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"> 
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Control Panel</title>
+    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}" />
+    <script src="static/jquery.min.js"></script>
+    <script src="static/main.js"></script>
+  </head>
+
+  <body>
+    <TD style="FONT-SIZE: 13px; COLOR:#000000; LINE-HIGHT:50px; FONT-FAMILY:Arial,Helvetica,sans-serif">
+    <legend style="font-size:17px; ">
+      <span style="color: green;"> NanLinActuators </span>
+      <span id="MyClockDisplay" style="color: #000;"><script src="static/digitalclock.js"></script></span>
+    </legend>
+
+    <script>
+      console.log('Toggle sync mode: ON.');
+      setTimeout(toggleFunc, 500);
+      function toggleFunc(){ ToggValue(); }
+    </script> 
+
+    {% for i in range(1,5) %}
+      <div class="five-state-toggle" style="margin-top:5px;display: inline-block;">
+        <button class="five-state-toggle-button" id="toggle{{i}}-button0" onclick="push('5Toggle1', {'toggle_id': '{{i}}', 'value': 1})"> 
+          <span>On</span>
+        </button> 
+
+        <button class="five-state-toggle-button default-button" id="toggle{{i}}-button1" onclick="push('5Toggle1', {'toggle_id': '{{i}}', 'value': 0})">
+          <span>Off</span>
+        </button>
+
+        <button class="five-state-toggle-button" id="toggle{{i}}-button2" onclick="push('5Toggle1', {'toggle_id': '{{i}}', 'value': 2})">
+          <span>10</span>
+        </button> 
+
+        <button class="five-state-toggle-button" id="toggle{{i}}-button3" onclick="push('5Toggle1', {'toggle_id': '{{i}}', 'value': 3})">
+          <span>30</span>
+        </button>
+
+        <button class="five-state-toggle-button" id="toggle{{i}}-button4" onclick="push('5Toggle1', {'toggle_id': '{{i}}', 'value': 4})">
+          <span>60</span>
+        </button>
+        
+      </div>
+      <span style="font-size:30px;padding-left:5px;color:#337ab7;">Switch{{i}} </span>
+      <span id="notify-{{i}}"" class="notify-off"></span>
+      <span id="span-{{i}}">
+        {% if data['toggle{}'.format(i)]['turn_off_time'] %}
+           {{ data['toggle{}'.format(i)]['turn_off_time'].strftime('%H:%M') }}
+        {% endif %}
+      </span>
+      <br>
+    {% endfor %}
+  </body>
+</html>
+
